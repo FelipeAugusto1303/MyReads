@@ -16,9 +16,9 @@ const App = () => {
       <div className="app">
         <Router>
           <Switch>
-            <Route path='/home' component={Home}/>
+            <Route exact path='/' component={Home}/>
             <Route path='/search' component={Search}/>
-            <Redirect to='/home'/>
+            <Redirect to='/'/>
           </Switch>
         </Router>
         

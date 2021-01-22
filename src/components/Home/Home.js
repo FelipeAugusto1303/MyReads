@@ -3,13 +3,13 @@ import {
      Link
 } from 'react-router-dom';
 import * as BooksApi from '../../BooksAPI';
-import Book from '../Book/Book';
 
 class Home extends Component {
     constructor(props){
         super(props)
         this.state = {
-          books: null
+          books: null,
+          data: null
         }
         
     }
@@ -23,6 +23,20 @@ class Home extends Component {
         })
     }
     
+    onHandleChange = (event, book) => {
+      console.log(event.target.value);
+      BooksApi.update(book, event.target.value)
+      .then(data => {
+        console.log(data)
+        BooksApi.getAll()
+        .then(data => {
+          this.setState({
+            books:data
+          })
+        })
+      })
+      .catch(error => console.log(error))
+    }
 
     render(){
         return(
@@ -42,8 +56,22 @@ class Home extends Component {
                           this.state.books.filter(book => book.shelf === "currentlyReading")
                           .map((book, index) => {
                             return(
-                              <li>
-                                <Book image={book.imageLinks.thumbnail} title={book.title} author={book.authors}/>
+                              <li key={index}>
+                                <div className="book">
+                                    <div className="book-top">
+                                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
+                                    <div className="book-shelf-changer">
+                                        <select onChange={(event) => this.onHandleChange(event, book)}>
+                                            <option selected={book.shelf === "currentlyReading"? true:false} value="currentlyReading" >Currently Reading</option>
+                                            <option selected={book.shelf === "wantToRead"? true:false} value="wantToRead">Want to Read</option>
+                                            <option selected={book.shelf === "read"? true:false} value="read">Read</option>
+                                            <option selected={book.shelf === "none"? true:false} value="none">None</option>
+                                        </select>
+                                    </div>
+                                    </div>
+                                    <div className="book-title">{book.title}</div>
+                                    <div className="book-authors">{book.author}</div>
+                                </div>
                               </li>
                             )
                           })
@@ -59,8 +87,22 @@ class Home extends Component {
                           this.state.books.filter(book => book.shelf === "wantToRead")
                           .map((book, index) => {
                             return(
-                              <li>
-                                <Book image={book.imageLinks.thumbnail} title={book.title} author={book.authors}/>
+                              <li key={index}>
+                                <div className="book">
+                                    <div className="book-top">
+                                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
+                                    <div className="book-shelf-changer">
+                                        <select onChange={(event) => this.onHandleChange(event, book)}>
+                                            <option selected={book.shelf === "currentlyReading"? true:false} value="currentlyReading" >Currently Reading</option>
+                                            <option selected={book.shelf === "wantToRead"? true:false} value="wantToRead">Want to Read</option>
+                                            <option selected={book.shelf === "read"? true:false} value="read">Read</option>
+                                            <option selected={book.shelf === "none"? true:false} value="none">None</option>
+                                        </select>
+                                    </div>
+                                    </div>
+                                    <div className="book-title">{book.title}</div>
+                                    <div className="book-authors">{book.author}</div>
+                                </div>
                               </li>
                             )
                           })
@@ -76,8 +118,23 @@ class Home extends Component {
                           this.state.books.filter(book => book.shelf === "read")
                           .map((book, index) => {
                             return(
-                              <li>
-                                <Book image={book.imageLinks.thumbnail} title={book.title} author={book.authors}/>
+                              
+                              <li key={index}>
+                                <div className="book">
+                                    <div className="book-top">
+                                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
+                                    <div className="book-shelf-changer">
+                                        <select onChange={(event) => this.onHandleChange(event, book)}>
+                                            <option selected={book.shelf === "currentlyReading"? true:false} value="currentlyReading">Currently Reading</option>
+                                            <option selected={book.shelf === "wantToRead"? true:false} value="wantToRead">Want to Read</option>
+                                            <option selected={book.shelf === "read"? true:false} value="read">Read</option>
+                                            <option selected={book.shelf === "none"? true:false} value="none">None</option>
+                                        </select>
+                                    </div>
+                                    </div>
+                                    <div className="book-title">{book.title}</div>
+                                    <div className="book-authors">{book.author}</div>
+                                </div>
                               </li>
                             )
                           })
