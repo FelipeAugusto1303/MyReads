@@ -3,6 +3,7 @@ import {
     Link
 } from 'react-router-dom';
 import * as BooksAPI from '../../BooksAPI';
+import Book from "../Book/Book";
 
 class Search extends Component {
   constructor(props){
@@ -81,21 +82,7 @@ class Search extends Component {
                   return(
                     
                     <li key={index}>
-                      <div className="book">
-                        <div className="book-top">
-                        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
-                        <div className="book-shelf-changer">
-                            <select onChange={(event) => this.onHandleChange(event, book)}>
-                                <option selected={typeof book.shelf !== "undefined" && this.state.realShelf === "currentlyReading"? true:false} value="currentlyReading" >Currently Reading</option>
-                                <option selected={typeof book.shelf !== "undefined" && this.state.realShelf === "wantToRead"? true:false} value="wantToRead">Want to Read</option>
-                                <option selected={typeof book.shelf !== "undefined" && this.state.realShelf === "read"? true:false} value="read">Read</option>
-                                <option selected={typeof book.shelf === "undefined" ? true:false} value="none">None</option>
-                            </select>
-                        </div>
-                        </div>
-                        <div className="book-title">{book.title}</div>
-                        <div className="book-authors">{book.authors}</div>
-                      </div>
+                      <Book bookId={book.id}/>
                     </li>
                   )
                   
