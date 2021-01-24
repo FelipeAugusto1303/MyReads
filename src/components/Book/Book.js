@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import * as BooksApi from '../../BooksAPI';
 
 class Book extends Component {
+    _isMounted = false;
     constructor(props){
         super(props)
         this.state = {
@@ -9,15 +10,19 @@ class Book extends Component {
         }
     }
 
-    componentDidMount(){
-        BooksApi.get(this.props.bookId)
-        .then(data => {
-            console.log(data)
+    async componentDidMount(){
+        this._isMounted = true;
+        const book = await BooksApi.get(this.props.bookId)
+        if(this._isMounted){
             this.setState({
-                book: data
+                book: book
             })
-        })
-        .catch(error => console.log(error))
+        }
+        
+    }
+
+    componentWillUnmount(){
+        this._isMounted = false;
     }
 
     onHandleChange = (event, book) => {
@@ -38,11 +43,11 @@ class Book extends Component {
                 <div className="book-top">
                 <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${this.state.book.imageLinks.thumbnail})` }}></div>
                 <div className="book-shelf-changer">
-                    <select onChange={(event) => this.onHandleChange(event, this.state.book)}>
-                        <option selected={typeof this.state.book.shelf !== "undefined" && this.state.book.shelf === "currentlyReading"? true:false} value="currentlyReading" >Currently Reading</option>
-                        <option selected={typeof this.state.book.shelf !== "undefined" && this.state.book.shelf === "wantToRead"? true:false} value="wantToRead">Want to Read</option>
-                        <option selected={typeof this.state.book.shelf !== "undefined" && this.state.book.shelf === "read"? true:false} value="read">Read</option>
-                        <option selected={typeof this.state.book.shelf === "undefined"? true:false} value="none">None</option>
+                    <select defaultValue={typeof this.state.book.shelf === "undefined" ? "none" : this.state.book.shelf} onChange={(event) => this.onHandleChange(event, this.state.book)}>
+                        <option value="currentlyReading" >Currently Reading</option>
+                        <option value="wantToRead">Want to Read</option>
+                        <option value="read">Read</option>
+                        <option value="none">None</option>
                     </select>
                 </div>
                 </div>

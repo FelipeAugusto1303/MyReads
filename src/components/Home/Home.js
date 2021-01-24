@@ -14,13 +14,11 @@ class Home extends Component {
         
     }
 
-    componentDidMount(){
-      BooksApi.getAll()
-        .then(data => {
-          this.setState({
-            books:data
-          })
-        })
+    async componentDidMount(){
+      const book = await BooksApi.getAll();
+      this.setState({
+        books: book
+      })
     }
     
     onHandleChange = (event, book) => {
@@ -56,21 +54,21 @@ class Home extends Component {
                           this.state.books.filter(book => book.shelf === "currentlyReading")
                           .map((book, index) => {
                             return(
-                              <li key={index}>
+                              <li key={book.id}>
                                 <div className="book">
                                     <div className="book-top">
                                     <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
                                     <div className="book-shelf-changer">
-                                        <select onChange={(event) => this.onHandleChange(event, book)}>
-                                            <option selected={book.shelf === "currentlyReading"? true:false} value="currentlyReading" >Currently Reading</option>
-                                            <option selected={book.shelf === "wantToRead"? true:false} value="wantToRead">Want to Read</option>
-                                            <option selected={book.shelf === "read"? true:false} value="read">Read</option>
-                                            <option selected={book.shelf === "none"? true:false} value="none">None</option>
+                                        <select defaultValue={typeof book.shelf === "undefined" ? "none" : book.shelf} onChange={(event) => this.onHandleChange(event, book)}>
+                                            <option value="currentlyReading" >Currently Reading</option>
+                                            <option value="wantToRead">Want to Read</option>
+                                            <option value="read">Read</option>
+                                            <option value="none">None</option>
                                         </select>
                                     </div>
                                     </div>
                                     <div className="book-title">{book.title}</div>
-                                    <div className="book-authors">{book.author}</div>
+                                    <div className="book-authors">{book.authors}</div>
                                 </div>
                               </li>
                             )
@@ -87,21 +85,21 @@ class Home extends Component {
                           this.state.books.filter(book => book.shelf === "wantToRead")
                           .map((book, index) => {
                             return(
-                              <li key={index}>
+                              <li key={book.id}>
                                 <div className="book">
                                     <div className="book-top">
                                     <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
                                     <div className="book-shelf-changer">
-                                        <select onChange={(event) => this.onHandleChange(event, book)}>
-                                            <option selected={book.shelf === "currentlyReading"? true:false} value="currentlyReading" >Currently Reading</option>
-                                            <option selected={book.shelf === "wantToRead"? true:false} value="wantToRead">Want to Read</option>
-                                            <option selected={book.shelf === "read"? true:false} value="read">Read</option>
-                                            <option selected={book.shelf === "none"? true:false} value="none">None</option>
+                                        <select defaultValue={typeof book.shelf === "undefined" ? "none" : book.shelf} onChange={(event) => this.onHandleChange(event, book)}>
+                                            <option value="currentlyReading" >Currently Reading</option>
+                                            <option value="wantToRead">Want to Read</option>
+                                            <option value="read">Read</option>
+                                            <option value="none">None</option>
                                         </select>
                                     </div>
                                     </div>
                                     <div className="book-title">{book.title}</div>
-                                    <div className="book-authors">{book.author}</div>
+                                    <div className="book-authors">{book.authors}</div>
                                 </div>
                               </li>
                             )
@@ -119,21 +117,21 @@ class Home extends Component {
                           .map((book, index) => {
                             return(
                               
-                              <li key={index}>
+                              <li key={book.id}>
                                 <div className="book">
                                     <div className="book-top">
                                     <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
                                     <div className="book-shelf-changer">
-                                        <select onChange={(event) => this.onHandleChange(event, book)}>
-                                            <option selected={book.shelf === "currentlyReading"? true:false} value="currentlyReading">Currently Reading</option>
-                                            <option selected={book.shelf === "wantToRead"? true:false} value="wantToRead">Want to Read</option>
-                                            <option selected={book.shelf === "read"? true:false} value="read">Read</option>
-                                            <option selected={book.shelf === "none"? true:false} value="none">None</option>
+                                        <select defaultValue={typeof book.shelf === "undefined" ? "none" : book.shelf} onChange={(event) => this.onHandleChange(event, book)}>
+                                            <option value="currentlyReading">Currently Reading</option>
+                                            <option value="wantToRead">Want to Read</option>
+                                            <option value="read">Read</option>
+                                            <option value="none">None</option>
                                         </select>
                                     </div>
                                     </div>
                                     <div className="book-title">{book.title}</div>
-                                    <div className="book-authors">{book.author}</div>
+                                    <div className="book-authors">{book.authors}</div>
                                 </div>
                               </li>
                             )
