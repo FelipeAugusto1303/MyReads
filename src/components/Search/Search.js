@@ -19,28 +19,27 @@ class Search extends Component {
       query: event.target.value
     })
     if(event.target.value !== ""){
-      if(event.target.value !== null || event.target.value !== ""){
         BooksAPI.search(event.target.value, 100)
         .then(data => {
           console.log(data)
-          if(typeof data.error === "undefined"){
-            this.setState({
-              books: data
-            })
+          if(typeof data !== "undefined"){
+            if(typeof data.error === "undefined"){
+              this.setState({
+                books: data
+              })
+            }
+            else{
+              this.setState({
+                books: null
+              })
+            }
           }
-          else{
-            this.setState({
-              books:null
-            })
-          }
-        
         })
         .catch(error => console.log(error))
-      }
     }
     else{
       this.setState({
-        books:null
+        books: null
       })
     }
   }
@@ -81,7 +80,7 @@ class Search extends Component {
                   
                   return(
                     
-                    <li key={index}>
+                    <li key={book.id}>
                       <Book bookId={book.id}/>
                     </li>
                   )
